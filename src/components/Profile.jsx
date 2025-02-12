@@ -11,8 +11,7 @@ import bouquetImage7 from "../asset/FOTO PRODUK 10.png";
 import bouquetImage8 from "../asset/FOTO PRODUK 11.png";
 import bouquetImage9 from "../asset/FOTO PRODUK 12.png";
 import bouquetImage10 from "../asset/FOTO_PRODUK_4-removebg-preview.png";
-import bouquetImage11 from "../asset/FOTO PRODUK 9.png";
-import bouquetImage12 from "../asset/FOTO PRODUK 9.png";
+
 import bouquetImage13 from "../asset/WhatsApp_Image_2024-12-10_at_14.18.26_d41d672e-removebg-preview.png";
 import graduation from "../asset/graduation-removebg-preview.png";
 import gift from "../asset/gift-removebg-preview.png";
@@ -44,7 +43,6 @@ const Profile = () => {
 
   return (
     <div className="bg-gradient-to-b from-[#F4BF97] to-white min-h-screen text-center flex flex-col relative">
-      {/* Rectangle for Description */}
       <div
         className="absolute w-[90%] sm:w-[1100px] h-auto left-1/2 mt-32 transform -translate-x-1/2 rounded-[27px] flex flex-col sm:flex-row items-center justify-between px-6 py-4"
         style={{
@@ -53,7 +51,7 @@ const Profile = () => {
       >
         <p className="text-center text-white text-2xl font-Judson">
           Bunga cantik nan indah dari pita satin yang premium, halus dan mengkilap, pastinya anti layu dan di buat khusus untuk pilihan hatimu!
-        </p>
+        </p> 
         <img
           src={bouquetImage13}
           alt="Bouquet Description"
@@ -62,7 +60,7 @@ const Profile = () => {
       </div>
 
       {/* Header */}
-      <div className="mt-32">
+      <div className="mt-16 md:mt-20">
         <div className="text-center mt-[20rem] relative z-10">
           <h1 className="text-4xl font-Judson font-bold underline decoration-[#CE5A67]">
             Our Bouquets
@@ -70,13 +68,13 @@ const Profile = () => {
         </div>
 
         {/* Images Section */}
-        <div className="overflow-hidden mt-5">
+        <div className="overflow-hidden mt-8">
           <div className="flex space-x-8 animate-scroll-image">
             {Array(2)
               .fill([
                 bouquetImage2, bouquetImage3, bouquetImage4, bouquetImage5,
                 bouquetImage6, bouquetImage7, bouquetImage8, bouquetImage9,
-                bouquetImage10, bouquetImage11, bouquetImage12,
+                bouquetImage2, bouquetImage3, bouquetImage4,
               ])
               .flat()
               .map((image, index) => (
@@ -97,17 +95,17 @@ const Profile = () => {
           <h2 className="text-4xl font-Judson font-bold underline decoration-[#CE5A67]">
             Testimoni
           </h2>
-          <div className="grid  sm:grid-cols-2 md:grid-cols-3 mt-8">
+          <div className="flex overflow-x-auto mt-8 space-x-4">
             {testimonials.length > 0 ? (
               testimonials.map((testimonial, index) => (
                 <div
                   key={index}
-                  className="bg-[#F4BF97] rounded-md flex justify-center items-center w-36 h-36"
+                  className="bg-[#F4BF97] rounded-md w-24 h-24 md:w-36 md:h-36 shrink-0"
                 >
                   <img
                     src={testimonial.imageUrl}
                     alt={`testimonial ${index + 1}`}
-                    className="w-full h-full object-cover rounded-md"
+                    className="w-full h-full rounded-md md:rounded-md"
                   />
                 </div>
               ))
@@ -118,7 +116,7 @@ const Profile = () => {
         </div>
 
         {/* Instagram Button */}
-        <div className="flex-1 flex flex-col items-center mt-16 pl-6 sm:pl-20">
+        <div className="flex-1 flex flex-col items-center mt-16">
           <div className="bg-[#CE5A67] text-white p-4 rounded-2xl shadow-md h-64 w-60 flex items-center justify-center">
             <p className="text-center font-Judson italic text-2xl leading-relaxed">
               <span className="block text-[#F4BF97]">Only on</span>
@@ -143,46 +141,40 @@ const Profile = () => {
         </div>
       </div>
 
-      {/* New Section for Bouquet Categories */}
-      <div className="mt-16">
-      <div className="flex justify-center space-x-10 relative -translate-y-8">
-      {/* Kotak Love dengan gambar yang lebih besar */}
-       <div className="bg-[#CE5A67] w-64 h-64 rounded-3xl flex flex-col items-center justify-center shadow-lg bg-gradient-to-b from-[#CE5A67] to-[#F4BF97] sm:w-56 sm:h-56 lg:w-72 lg:h-72 hover:scale-105 transition-all duration-300 relative ">
-      {/* Blur hanya di bagian bawah */}
-      <div className="absolute bottom-0 left-0 right-0 h-16 bg-[#CE5A67] bg-opacity-30 backdrop-blur-sm rounded-b-3xl"></div>
-      <img
-        src={bouquetImage10} // Ganti dengan gambar bunga untuk kategori Love
-        alt="Love Bouquet"
-        className="w-40 h-40 mt-4 object-cover rounded-md object-cover"
-      />
-      <h3 className="text-4xl font-Judson font-bold text-center text-white absolute bottom-0 left-0 right-0 mb-4">Love</h3>
-    </div>
+        <div className="flex justify-center items-center relative -translate-y-8 flex-col sm:flex-row mt-16 md:mt-52 gap-12">
+          <div className="bg-[#CE5A67] w-64 h-64 rounded-3xl flex flex-col items-center justify-center shadow-lg bg-gradient-to-b from-[#CE5A67] 
+          to-[#F4BF97] sm:w-56 sm:h-56 lg:w-72 lg:h-72 hover:scale-105 transition-all duration-300 relative">
+            <div className="absolute bottom-0 left-0 right-0 h-16 bg-[#CE5A67] bg-opacity-30 backdrop-blur-sm rounded-b-3xl"></div>
+              <img
+                src={bouquetImage10}
+                alt="Love Bouquet"
+                className="w-40 h-40 mt-4 rounded-md object-cover"
+              />
+              <h3 className="text-4xl font-Judson font-bold text-center text-white absolute bottom-0 left-0 right-0 mb-4">Love</h3>
+        </div>
 
-    {/* Kotak Graduation */}
-    <div className="bg-[#CE5A67] w-64 h-90 rounded-3xl flex flex-col items-center justify-center shadow-lg relative -translate-y-12 bg-gradient-to-b from-[#CE5A67] to-[#F4BF97] sm:w-56 sm:h-56 lg:w-72 lg:h-72 hover:scale-105 transition-all duration-300">
-      {/* Blur Effect */}
-      <div className="absolute bottom-0 left-0 right-0 h-16 bg-[#CE5A67] bg-opacity-30 backdrop-blur-sm rounded-b-3xl"></div>
-      <img
-        src={graduation} // Ganti dengan gambar bunga untuk kategori Graduation
-        alt="Graduation Bouquet"
-        className="w-44 h-42 rounded-md object-cover"
-      />
-      <h3 className="text-4xl font-Judson font-bold text-center text-white absolute bottom-0 left-0 right-0 mb-4">Graduation</h3>
-    </div>
+        <div className="bg-[#CE5A67] w-64 h-64 rounded-3xl flex flex-col items-center justify-center shadow-lg relative md:-translate-y-12 bg-gradient-to-b
+        from-[#CE5A67] to-[#F4BF97] sm:w-56 sm:h-56 lg:w-72 lg:h-72 hover:scale-105 transition-all duration-300">
+          <div className="absolute bottom-0 left-0 right-0 h-16 bg-[#CE5A67] bg-opacity-30 backdrop-blur-sm rounded-b-3xl"></div>
+            <img
+              src={graduation}
+              alt="Graduation Bouquet"
+              className="w-40 h-40 rounded-md object-cover"
+            />
+            <h3 className="text-4xl font-Judson font-bold text-center text-white absolute bottom-0 left-0 right-0 mb-4">Graduation</h3>
+        </div>
 
-    {/* Kotak Gift */}
-    <div className="bg-[#CE5A67] w-64 h-64 rounded-3xl flex flex-col items-center justify-center shadow-lg bg-gradient-to-b from-[#CE5A67] to-[#F4BF97] sm:w-56 sm:h-56 lg:w-72 lg:h-72 hover:scale-105 transition-all duration-300 relative">
-      {/* Blur Effect */}
-      <div className="absolute bottom-0 left-0 right-0 h-16 bg-[#CE5A67] bg-opacity-30 backdrop-blur-sm rounded-b-3xl"></div>
-      <img
-        src={gift} // Ganti dengan gambar bunga untuk kategori Gift
-        alt="Gift Bouquet"
-        className="w-40 h-48 mt-4 object-cover rounded-md object-cover"
-      />
-      <h3 className="text-4xl font-Judson font-bold text-center text-white absolute bottom-0 left-0 right-0 mb-4">Gift</h3>
-    </div>
-    </div>
-    </div>
+        <div className="bg-[#CE5A67] w-64 h-64 rounded-3xl flex flex-col items-center justify-center shadow-lg bg-gradient-to-b from-[#CE5A67]
+        to-[#F4BF97] sm:w-56 sm:h-56 lg:w-72 lg:h-72 hover:scale-105 transition-all duration-300 relative">
+          <div className="absolute bottom-0 left-0 right-0 h-16 bg-[#CE5A67] bg-opacity-30 backdrop-blur-sm rounded-b-3xl"></div>
+          <img
+            src={gift}
+            alt="Gift Bouquet"
+            className="w-40 h-40 mt-4 rounded-md object-cover"
+          />
+          <h3 className="text-4xl font-Judson font-bold text-center text-white absolute bottom-0 left-0 right-0 mb-4">Gift</h3>
+        </div>
+      </div>
     </div>
   );
 };
