@@ -1,72 +1,85 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { db } from "../firebase";
+import { collection, getDocs } from "firebase/firestore";
 import Logo from "../asset/Logo1-removebg-preview.png";
-import bouquetImage1 from "../asset/WhatsApp_Image_2024-12-10_at_14.18.26_d41d672e-removebg-preview.png";
-import bouquetImage2 from "../asset/IMG_1638.PNG";
-import bouquetImage3 from "../asset/IMG_1641.PNG";
-import bouquetImage4 from "../asset/IMG_1649.PNG";
-import bouquetImage6 from "../asset/BOUQETIMAGERMV.png";
 import panahkiri from "../asset/left.png";
 import panahkanan from "../asset/right.png";
-import whatsappIcon from "../asset/whatsapp.png";
 import backIcon from "../asset/backIcon.png";
 
 const Katalog = () => {
-  const images = [
-    { src: bouquetImage1, title: "Paket 1", description: "Deskripsi Paket 1", price: "Rp 150.000", types: ["Flower", "Cellophane Paper", "Ribbon"] },
-    { src: bouquetImage2, title: "Paket 2", description: "Deskripsi Paket 2", price: "Rp 200.000", types: ["Flower", "Paper Wrap", "Ribbon"] },
-    { src: bouquetImage3, title: "Paket 3", description: "Deskripsi Paket 3", price: "Rp 250.000", types: ["Flower", "Plastic Wrap", "Ribbon"] },
-    { src: bouquetImage4, title: "Paket 4", description: "Deskripsi Paket 4", price: "Rp 300.000", types: ["Flower", "Fabric Wrap", "Ribbon"] },
-    { src: bouquetImage6, title: "Paket 5", description: "Deskripsi Paket 5", price: "Rp 350.000", types: ["Flower", "Luxury Wrap", "Ribbon"] },
-  ];
-
+  const [items, setItems] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [showGreetingCard, setShowGreetingCard] = useState(false);
   const [greetingName, setGreetingName] = useState("");
+  const [showGreetingCard, setShowGreetingCard] = useState(false);
   const [greetingText, setGreetingText] = useState("");
 
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "items"));
+        const itemsData = querySnapshot.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
+        setItems(itemsData);
+      } catch (error) {
+        console.error("Error fetching items: ", error);
+      }
+    };
+
+    fetchItems();
+  }, []);
+
+  const handleOrderNow = () => {
+    if (items.length === 0) {
+      alert("Item masih dimuat. Mohon tunggu sebentar.");
+      return;
+    }
+  
+    const selectedFlower = items[currentIndex];
+    const message = `Hai, saya ingin memesan:
+      - Nama Pengirim: ${greetingName || "Tidak ada nama"}
+      - Nama Paket: ${selectedFlower?.packageName || "Nama paket tidak tersedia"}
+      - Deskripsi: ${selectedFlower?.description || "Deskripsi tidak tersedia"}
+      - Harga: ${selectedFlower?.price ? `Rp ${selectedFlower.price}` : "Harga tidak tersedia"}
+      - Greeting Card: ${greetingText || "Tidak ada pesan khusus"}`;
+      window.open(`https://wa.me/6289519324924?text=${encodeURIComponent(message)}`, "_blank");
+  };
+   
+  
   const handleNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
+    setCurrentIndex((prevIndex) => (prevIndex === items.length - 1 ? 0 : prevIndex + 1));
   };
 
   const handlePrev = () => {
-    setCurrentIndex((prevIndex) => (prevIndex === 0 ? images.length - 1 : prevIndex - 1));
-  };
-
-  const handleOrderNow = () => {
-    const selectedFlower = images[currentIndex];
-    const message = `Hai, saya ingin memesan:
-- Nama Pengirim: ${greetingName || "Tidak ada nama"}
-- Nama Paket: ${selectedFlower.title}
-- Deskripsi: ${selectedFlower.description}
-- Harga: ${selectedFlower.price}
-- Greeting Card: ${greetingText || "Tidak ada pesan khusus"}`;
-    window.open(`https://wa.me/6289519324924?text=${encodeURIComponent(message)}`, "_blank");
+    setCurrentIndex((prevIndex) => (prevIndex === 0 ? items.length - 1 : prevIndex - 1));
   };
 
   return (
-    <div className="bg-gradient-to-b from-[#F4BF97] to-white min-h-screen flex flex-col items-center py-10 px-4 relative font-[Judson]">
+    <div className="bg-gradient-to-b from-[#F4BF97] to-white min-h-screen flex flex-col items-center py-6 px-4 relative font-[Judson]">
       <img src={Logo} alt="Logo" className="absolute top-20 right-5 w-16 sm:w-20 object-contain" />
-      
-      <div className="w-full max-w-6xl flex flex-col sm:flex-row justify-between items-start sm:items-end px-6 sm:px-16">
+
+      <div className="w-full max-w-6xl flex flex-col sm:flex-row justify-between items-start sm:items-end px-6 sm:px-16 pt-12">
         <div className="text-left sm:absolute sm:top-28 sm:left-16">
-          <h2 className="text-3xl font-semibold text-black mb-2">{images[currentIndex].title}</h2>
-          <p className="text-lg text-[#CE5A67] mb-4">{images[currentIndex].description}</p>
+          <h2 className="text-3xl font-semibold text-black mb-2">{items[currentIndex]?.packageName || "Loading..."}</h2>
+          <p className="text-lg text-[#CE5A67] mb-4">{items[currentIndex]?.description || "Loading description..."}</p>
           <div className="flex flex-col gap-2">
-            {images[currentIndex].types.map((type, index) => (
-              <div 
-                key={index} 
-                className="px-6 py-2 rounded-full text-lg font-semibold bg-[#F4BF97] text-[#FCF5ED]"
-              >
-                {type}
-              </div>
-            ))}
+            <div className="px-6 py-2 rounded-full text-lg font-semibold bg-[#F4BF97] text-[#FCF5ED]">Flower</div>
+            <div className="px-6 py-2 rounded-full text-lg font-semibold bg-[#FAF3EB] text-[#F4BF97]">Cellophane Paper</div>
+            <div className="px-6 py-2 rounded-full text-lg font-semibold bg-[#FCE8DD] text-[#CE5A67]">Ribbon</div>
           </div>
         </div>
-        <p className="text-4xl sm:text-6xl font-bold top-30 text-black sm:absolute sm:top-40 sm:right-16">{images[currentIndex].price}</p>
+        <p className="text-4xl sm:text-6xl font-bold text-black sm:absolute sm:top-28 sm:right-16 sm:pt-16">
+        {items[currentIndex]?.price ? `Rp ${items[currentIndex].price}` : "Loading..."}
+        </p>
       </div>
 
-      <div className="relative w-full max-w-md mt-12 flex justify-center">
-        <img src={images[currentIndex].src} alt={images[currentIndex].title} className="w-full h-auto max-w-md object-contain" />
+      <div className="relative w-full max-w-md flex justify-center">
+        <img
+          src={items[currentIndex]?.imageUrl || "https://via.placeholder.com/300"}
+          alt={items[currentIndex]?.packageName || "Image"}
+          className="w-full h-auto max-w-md object-contain"
+        />
       </div>
 
       <div className="absolute bottom-16 flex flex-col items-center gap-4">
@@ -88,7 +101,6 @@ const Katalog = () => {
         </div>
       </div>
 
-      {/* Greeting Card Popup */}
       {showGreetingCard && (
         <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 px-4">
           <div className="bg-white p-6 sm:p-8 shadow-lg rounded-lg w-full max-w-md relative"
